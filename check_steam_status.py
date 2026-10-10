@@ -33,8 +33,13 @@ PERSONA_STATES = {
 }
 
 
+DEFAULT_UA = "Mozilla/5.0 (compatible; steam-presence-notifier/1.0)"
+
+
 def http_json(url: str, method: str = "GET", headers: dict | None = None, body: bytes | None = None) -> dict:
-    req = request.Request(url, data=body, headers=headers or {}, method=method)
+    headers = dict(headers or {})
+    headers.setdefault("User-Agent", DEFAULT_UA)
+    req = request.Request(url, data=body, headers=headers, method=method)
     with request.urlopen(req, timeout=20) as resp:
         return json.loads(resp.read().decode())
 
