@@ -34,6 +34,11 @@ def main() -> int:
         headers={
             "Authorization": f"Bearer {resend_api_key}",
             "Content-Type": "application/json",
+            "Accept": "application/json",
+            # Resend sits behind Cloudflare, which blocks the default
+            # Python-urllib User-Agent outright (Cloudflare error 1010).
+            # A normal-looking UA gets past that check.
+            "User-Agent": "Mozilla/5.0 (compatible; steam-presence-notifier/1.0)",
         },
         method="POST",
     )
